@@ -2533,7 +2533,7 @@ narrUI();
 /* ================================================================ fotos 360° fotorrealistas em cada parada
    Renderizadas no Blender (Cycles) exatamente do ponto de vista de cada parada. Parado num ambiente, você vê a foto;
    ao começar a andar, ela se funde de volta ao 3D. */
-const PANO_SIZES = [];
+const PANO_SIZES = [2048];
 const PANO = { k: 0, cur: -1, want: -1, tex: new Map(), loading: new Set(), failed: new Set(), size: 0, tw: null };
 PANO.size = PANO_SIZES.length ? (isSmall || Math.max(innerWidth, innerHeight) * Math.min(2, devicePixelRatio || 1) < 1700 ? Math.min(...PANO_SIZES) : Math.max(...PANO_SIZES)) : 0;
 const panoMat = new THREE.ShaderMaterial({
