@@ -131,7 +131,7 @@ html.visit .vui{opacity:1;visibility:visible;transform:none}
 .nnext b{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .navbar .ic{width:22px;height:22px;stroke-width:1.8}
 .tools{position:fixed;z-index:6;left:calc(var(--sl) + var(--g));right:calc(var(--sr) + var(--g));bottom:calc(var(--sb) + var(--g) + var(--navh) + 8px);height:var(--toolh);
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:rgba(255,255,255,.96);border:1px solid var(--line-2);box-shadow:0 10px 26px var(--shadow)}
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:rgba(255,255,255,.96);border:1px solid var(--line-2);box-shadow:0 10px 26px var(--shadow)}
 .tools button{border:0;border-right:1px solid var(--line);background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
   font-size:10.5px;font-weight:500;color:var(--ink);padding:0 2px;min-width:0}
 .tools button:last-child{border-right:0}
@@ -222,7 +222,9 @@ html.visit.doll.doll-quiet .doll-hint{opacity:0;visibility:hidden}
   .hero p{font-size:14.5px;line-height:1.55}
   .hero .btns{display:flex;flex-direction:column;gap:10px}
   .navbar{left:50%;right:auto;width:600px;margin-left:-300px}
-  .tools{left:50%;right:auto;width:480px;margin-left:-240px}
+  .tools{left:50%;right:auto;width:640px;margin-left:-320px}
+  .narr{left:calc(var(--sl) + 24px);right:auto;width:380px;bottom:calc(var(--sb) + 24px)}
+  .tbtn span{display:inline}
   .nprev{gap:8px}
   .navbar{grid-template-columns:auto minmax(0,1fr) auto}
   .nprev{padding:0 18px 0 14px}
@@ -254,13 +256,15 @@ html.visit.doll.doll-quiet .doll-hint{opacity:0;visibility:hidden}
   .btn.ghost{min-height:40px}
   .navbar{left:50%;right:auto;width:min(560px, 62vw);transform:translateX(-50%)}
   html.visit .navbar{transform:translateX(-50%)}
-  .tools{left:calc(var(--sl) + 8px);right:auto;top:calc(var(--st) + 52px);bottom:auto;width:76px;height:auto;grid-template-columns:1fr;grid-template-rows:repeat(3,52px)}
+  .tools{left:calc(var(--sl) + 8px);right:auto;top:calc(var(--st) + 52px);bottom:auto;width:76px;height:auto;grid-template-columns:1fr;grid-template-rows:repeat(5,46px)}
   .tools button{border-right:0;border-bottom:1px solid var(--line);font-size:9.5px}
   .tools button:last-child{border-bottom:0}
   .pad{bottom:calc(var(--sb) + 8px);right:calc(var(--sr) + 8px);grid-template-columns:repeat(3,38px);grid-template-rows:repeat(3,38px)}
   .minimap{top:calc(var(--st) + 50px);width:110px;height:84px}
   .minimap .cap{display:none}
   .doll-hint{top:calc(var(--st) + 50px)}
+  .narr{left:calc(var(--sl) + 96px);right:calc(var(--sr) + 140px);bottom:calc(var(--sb) + var(--g) + var(--navh) + 8px);padding:10px 12px 8px}
+  .narr p{font-size:13.5px;margin-bottom:6px}
   .sheet{left:auto;right:0;top:0;bottom:0;width:min(440px, 70vw);max-height:none;border-left:1px solid var(--line-2)}
   .sheet::before{display:none}
   #roomsPlan{max-height:46vh}
@@ -282,6 +286,35 @@ html.lbl .rlabel:hover{border-color:var(--wine)}
 .tools button:not([aria-pressed="true"]):not([aria-expanded="true"]):hover{color:var(--wine)}
 .list button:hover{color:var(--wine)}
 }
+/* topo: ações */
+.acts{display:flex;gap:6px;pointer-events:auto;align-items:center}
+.tbtn{display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;background:var(--surface);border:1px solid var(--line-2);font-size:13px;font-weight:500;cursor:pointer;color:var(--ink)}
+.tbtn .ic{width:18px;height:18px}
+.tbtn span{display:none}
+.tbtn.wa{color:#fff;background:#1f8f54;border-color:#1f8f54}
+.btn.wa{border-color:#1f8f54;color:#1f8f54}
+.home span{display:inline}
+.mark .logo{height:24px;width:auto;display:block}
+/* narração */
+.narr{position:fixed;z-index:6;left:calc(var(--sl) + var(--g));right:calc(var(--sr) + var(--g));bottom:calc(var(--sb) + var(--g) + var(--navh) + var(--toolh) + 16px);
+  background:rgba(255,255,255,.96);border:1px solid var(--line-2);border-left:3px solid var(--wine);box-shadow:0 14px 34px var(--shadow);padding:14px 16px 10px;
+  opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .45s, transform .45s, visibility .45s}
+.narr.show{opacity:1;visibility:visible;transform:none}
+html:not(.visit) .narr{opacity:0;visibility:hidden}
+.narr p{margin:0 0 8px;font-family:var(--serif);font-size:15.5px;line-height:1.45;color:var(--ink);-webkit-user-select:text;user-select:text}
+.nrow{display:flex;gap:8px;align-items:center}
+.nbtn{display:flex;align-items:center;gap:6px;border:1px solid var(--line-2);background:transparent;height:34px;padding:0 12px;font-size:12px;font-weight:600;cursor:pointer;color:var(--ink)}
+.nbtn .ic{width:16px;height:16px}
+.nbtn[aria-pressed="true"]{background:var(--wine);color:#fff;border-color:var(--wine)}
+@media (max-width:820px) and (min-height:521px){ html.narr-open .pad{opacity:0;visibility:hidden} }
+/* consentimento e aviso */
+.consent{position:fixed;z-index:12;left:calc(var(--sl) + var(--g));right:calc(var(--sr) + var(--g));top:calc(var(--st) + 58px);max-width:560px;margin:0 auto;
+  background:var(--surface);border:1px solid var(--line-2);box-shadow:0 18px 44px var(--shadow);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.consent p{margin:0;font-size:12.5px;line-height:1.45;color:var(--ink-2)}
+.consent .btn{min-height:40px;width:auto;padding:0 18px;font-size:13px}
+.toast{position:fixed;z-index:13;left:50%;top:calc(var(--st) + 64px);transform:translateX(-50%);background:var(--ink);color:#fff;font-size:12.5px;font-weight:500;padding:9px 14px;opacity:0;pointer-events:none;transition:opacity .3s}
+.toast.show{opacity:.94}
+@media (max-width:420px){ .tools button{font-size:9.5px} .home span{display:none} .home{padding:0 11px} }
 @media (prefers-reduced-motion:reduce){ .pulse{animation:none} .sheet,.help-card{animation:none} }
 </style>
 <style>[hidden]{display:none!important}</style>
@@ -297,7 +330,11 @@ html.lbl .rlabel:hover{border-color:var(--wine)}
 
 <header class="top" id="top">
   <div class="mark"><i></i><b>Tour 3D</b><span>Apartamento · 3 suítes</span></div>
-  <button class="home" id="homeBtn" type="button" aria-label="Voltar ao início"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5M6.5 10v9h11v-9"/></svg>Início</button>
+  <div class="acts">
+    <button class="tbtn wa" type="button" data-wa hidden aria-label="Falar com o corretor pelo WhatsApp"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5 5.6 16A7.6 7.6 0 1 1 8.4 18.6z"/><path d="M9.3 9.2c.3 1.9 2.4 4.2 4.6 4.8l1.1-1.1 1.7.8-.5 1.4c-3.6.4-7.3-3.4-7-7l1.4-.5.8 1.7z"/></svg><span>Corretor</span></button>
+    <button class="tbtn" id="shareBtn" type="button" aria-label="Compartilhar o tour"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="17.5" cy="6" r="2.5"/><circle cx="6.5" cy="12" r="2.5"/><circle cx="17.5" cy="18" r="2.5"/><path d="M8.7 10.8 15.3 7.2M8.7 13.2l6.6 3.6"/></svg><span>Compartilhar</span></button>
+    <button class="home" id="homeBtn" type="button" aria-label="Voltar ao início"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5M6.5 10v9h11v-9"/></svg><span>Início</span></button>
+  </div>
 </header>
 
 <section class="hero" id="hero" aria-labelledby="heroTitle">
@@ -308,6 +345,7 @@ html.lbl .rlabel:hover{border-color:var(--wine)}
   <div class="btns" style="display:flex;flex-direction:column;gap:8px">
     <button class="btn big pulse" id="startBtn" type="button">Começar a visita <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     <button class="btn ghost" type="button" data-open-rooms aria-expanded="false">Escolher um ambiente</button>
+    <button class="btn ghost wa" type="button" data-wa hidden>Falar com o corretor no WhatsApp</button>
   </div>
   <p class="hint"><span class="t-touch">Arraste para girar · toque num cômodo para entrar direto</span><span class="t-mouse">Arraste para girar · clique num cômodo para entrar direto</span></p>
 </section>
@@ -325,7 +363,9 @@ html.lbl .rlabel:hover{border-color:var(--wine)}
 <nav class="tools vui" id="tools" aria-label="Ferramentas da visita">
   <button type="button" id="tRooms" data-open-rooms aria-expanded="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg><span>Ambientes</span></button>
   <button type="button" id="tDoll" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 21 7.5 12 12 3 7.5z"/><path d="M3 12l9 4.5 9-4.5M3 16.5 12 21l9-4.5"/></svg><span>Vista de cima</span></button>
-  <button type="button" id="tHelp"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.6a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.6M12 17.2v.3"/></svg><span>Como navegar</span></button>
+  <button type="button" id="tNight" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 14.5A7.5 7.5 0 0 1 9.5 4.5a7.5 7.5 0 1 0 10 10z"/></svg><span>Noite</span></button>
+  <button type="button" id="tNarr" aria-pressed="true"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5h14M5 11h14M5 15.5h9"/><path d="M15.5 19.5l2.2-2.2h1.8"/></svg><span>Narração</span></button>
+  <button type="button" id="tHelp"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.6a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.6M12 17.2v.3"/></svg><span>Ajuda</span></button>
 </nav>
 
 <nav class="navbar vui" id="nav" aria-label="Percorrer os ambientes">
@@ -342,6 +382,9 @@ html.lbl .rlabel:hover{border-color:var(--wine)}
 </section>
 
 
+<div class="narr" id="narr" aria-live="polite"><p></p><div class="nrow"><button type="button" class="nbtn" id="narrListen" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9.5h3l4-3.5v12l-4-3.5H5z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><span>Ouvir</span></button><button type="button" class="nbtn" id="narrClose" aria-label="Fechar a narração">Fechar</button></div></div>
+<div class="consent" id="consent" hidden role="dialog" aria-label="Cookies de medição"><p>Este tour usa cookies de medição (Google Analytics) para entender quais ambientes interessam mais. Nenhum dado pessoal é pedido.</p><div class="nrow"><button type="button" class="btn" id="consentYes">Aceitar</button><button type="button" class="btn ghost" id="consentNo">Recusar</button></div></div>
+<div class="toast" id="toast" role="status"></div>
 <div class="help" id="help" hidden role="dialog" aria-modal="true" aria-labelledby="helpTitle">
   <div class="help-card">
     <div class="kick">Como navegar</div>
@@ -350,7 +393,8 @@ html.lbl .rlabel:hover{border-color:var(--wine)}
       <li><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M4 12l3.5-3.5M4 12l3.5 3.5M20 12l-3.5-3.5M20 12l-3.5 3.5"/></svg></span><div><b class="t-touch">Arraste a tela</b><b class="t-mouse">Clique e arraste</b><span>para olhar em volta</span></div></li>
       <li><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="16" rx="7" ry="3"/><path d="M12 13V4M9 7l3-3 3 3"/></svg></span><div><b class="t-touch">Toque no piso</b><b class="t-mouse">Clique no piso</b><span>para andar até aquele ponto</span></div></li>
       <li><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20V4h9v16M15 4l3 1.5V20M11.5 12.5v.5"/></svg></span><div><b>Marcadores nas portas</b><span>levam para o cômodo ao lado</span></div></li>
-      <li><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h12M12 6l6 6-6 6"/></svg></span><div><b>Botão Próximo</b><span>segue a visita, ambiente por ambiente</span></div></li>
+      <li><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h12M12 6l6 6-6 6"/></svg></span><div><b>Botão Próximo</b><span>segue a visita; parado em cada ambiente, você vê uma foto 360° fotorrealista</span></div></li>
+      <li><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 14.5A7.5 7.5 0 0 1 9.5 4.5a7.5 7.5 0 1 0 10 10z"/></svg></span><div><b>Noite e Narração</b><span>acendem as luzes do apartamento e contam cada ambiente, com voz se você quiser</span></div></li>
       <li><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v6M9 6l3-3 3 3M12 21v-6M9 18l3 3 3-3M3 12h6M21 12h-6"/></svg></span><div><b>Setas na tela</b><span class="t-touch">andam e giram · use dois dedos para aproximar</span><span class="t-mouse">andam e giram · teclado: setas ou W A S D · a roda do mouse aproxima</span></div></li>
     </ul>
     <p class="tip-rot">Dica: deite o celular para ver mais do ambiente.</p>
@@ -555,7 +599,7 @@ const TEX = {
   "note": "Trama de algodão"
  }
 };
-const TEXSRC = Object.assign((n, suf) => `tex/${n}_${suf}.jpg`, { plan: 'planta.webp', env: 'env/lebombo_1k_log.png', sky: 'env/ceu.jpg', m: k => `models/${k}.json` });
+const TEXSRC = Object.assign((n, suf) => `tex/${Math.min(innerWidth, innerHeight) < 700 ? 'm/' : ''}${n}_${suf}.webp`, { plan: 'planta.webp', env: 'env/lebombo_1k_log.png', sky: 'env/ceu.jpg', m: k => `models/${k}.glb` });
 
 /* ================================================================ constantes de projeto (metros) */
 const H = 2.70, DOOR_H = 2.10, SILL = 1.00, WIN_TOP = 2.20, PARA_H = 1.10, EYE = 1.60;
@@ -909,15 +953,16 @@ function build() {
     const fl = new THREE.Mesh(g, mat); fl.position.y = 0.004; fl.receiveShadow = true;
     fl.userData = { pick: kind === 'main' ? 'piso' : null, fin: kind === 'main' ? 'piso' : null, room: r.name, kind };
     house.add(fl); floors.push(fl); if (kind === 'main') pickables.push(fl);
-    const sc = new THREE.Shape(r.poly.map(([x, y]) => new THREE.Vector2(X(x), Z(y))));
-    const cg = new THREE.ShapeGeometry(sc); cg.rotateX(Math.PI / 2);
-    const ce = new THREE.Mesh(cg, F.ceil); ce.position.y = H; ce.userData.ceiling = true; ce.receiveShadow = true; house.add(ce); ceilings.push(ce);
     const el = document.createElement('div'); el.className = 'rlabel' + (MAIN_ROOMS.includes(r.name) ? '' : ' minor'); el.dataset.room = r.name;
     el.innerHTML = `<b>${LABEL_NAME[r.name] || r.name}</b><span data-lbl="${r.name}"></span>`;
     const [sx, sy] = labelPos(r);
     const lo = new CSS2DObject(el); lo.position.set(X(sx), 0.2, Z(sy)); house.add(lo); labels.push(lo);
   }
 
+  { // forro único sobre toda a planta: encosta em todas as paredes, sem frestas
+    const sc = new THREE.Shape(DATA.footprint.map(([x, y]) => new THREE.Vector2(X(x), Z(y))));
+    const cg = new THREE.ShapeGeometry(sc); cg.rotateX(Math.PI / 2);
+    const ce = new THREE.Mesh(cg, F.ceil); ce.position.y = H; ce.userData.ceiling = true; ce.receiveShadow = true; house.add(ce); ceilings.push(ce); }
   // paredes
   const footGeos = [];
   const addFoot = (cx, cz, lx, lz, rot = 0) => { const g = new THREE.PlaneGeometry(lx, lz); g.rotateX(-Math.PI / 2); if (rot) g.rotateY(rot); g.translate(cx, 0.05, cz); footGeos.push(g); };
@@ -1241,14 +1286,38 @@ function nightstand(w, d, h, lamp = true) {
   }
   return g;
 }
-function wardrobe(Lw, D, Hw) {
-  const g = new THREE.Group(), m = MAT.marc();
-  add(g, BX(Lw, Hw, D - 0.02), F.lacquer, 0, Hw / 2, -0.01);
+function wardrobe(Lw, D, Hw, open = [], seed = 1) {
+  const g = new THREE.Group(), m = MAT.marc(), rnd = mulberry(seed);
   const n = Math.max(2, Math.round(Lw / 0.5)), dw = Lw / n;
+  const isOpen = i => open.includes(i);
+  // caixa: costas, laterais, base e tampo (as seções abertas mostram o interior)
+  add(g, BX(Lw, Hw, 0.018), F.lacquer, 0, Hw / 2, -D / 2 + 0.009);
+  add(g, BX(Lw, 0.02, D - 0.02), F.lacquer, 0, Hw - 0.01, -0.01); add(g, BX(Lw, 0.08, D - 0.02), F.lacquer, 0, 0.04, -0.01);
+  for (const sx of [-1, 1]) add(g, BX(0.018, Hw, D - 0.02), F.lacquer, sx * (Lw / 2 - 0.009), Hw / 2, -0.01);
+  const clothes = [F.fabricWhite, F.fabricBlue, F.fabricCharcoal, F.fabricOat, F.fabricTan, F.fabricGray, F.fabricTerra];
   for (let i = 0; i < n; i++) {
     const x = -Lw / 2 + dw * (i + 0.5);
-    add(g, RB(dw - 0.004, Hw - 0.012, 0.019, 0.002, 1), m, x, Hw / 2, D / 2 - 0.0095);
-    add(g, BX(0.012, 0.42, 0.018), F.blackMetal, x + (i % 2 ? -1 : 1) * (dw / 2 - 0.04), 1.05, D / 2 + 0.012);
+    if (!isOpen(i)) {
+      add(g, BX(dw - 0.004, Hw - 0.1, D - 0.06), F.lacquer, x, Hw / 2, -0.02);    // miolo fechado (não aparece)
+      add(g, RB(dw - 0.004, Hw - 0.012, 0.019, 0.002, 1), m, x, Hw / 2, D / 2 - 0.0095);
+      add(g, BX(0.012, 0.42, 0.018), F.blackMetal, x + (i % 2 ? -1 : 1) * (dw / 2 - 0.04), 1.05, D / 2 + 0.012);
+      continue;
+    }
+    const left = !isOpen(i - 1), right = !isOpen(i + 1);
+    if (left) add(g, BX(0.018, Hw - 0.1, D - 0.04), m, x - dw / 2 + 0.009, Hw / 2, -0.01);
+    if (right) add(g, BX(0.018, Hw - 0.1, D - 0.04), m, x + dw / 2 - 0.009, Hw / 2, -0.01);
+    add(g, BX(dw, 0.008, 0.02), ledMat, x, Hw - 0.03, D / 2 - 0.06, { shadow: false, noAO: true });
+    // cabideiro com roupas no alto, prateleiras com pilhas dobradas embaixo
+    add(g, CYL(0.009, 0.009, dw - 0.02, 10), F.chrome, x, 1.95, -0.02, { rz: Math.PI / 2 });
+    let u = x - dw / 2 + 0.03;
+    while (u < x + dw / 2 - 0.05) { const t = 0.025 + rnd() * 0.035, h = 0.7 + rnd() * 0.35, mat = clothes[Math.floor(rnd() * clothes.length)];
+      add(g, RB(t, h, 0.42, 0.012, 2), mat, u + t / 2, 1.93 - h / 2, -0.02 + (rnd() - 0.5) * 0.03, { rz: (rnd() - 0.5) * 0.06 }); u += t + 0.006; }
+    for (const y of [0.42, 0.82]) {
+      add(g, BX(dw - 0.02, 0.018, D - 0.06), m, x, y, -0.02);
+      let w = x - dw / 2 + 0.04; while (w < x + dw / 2 - 0.2) { const k = 2 + Math.floor(rnd() * 3), mat = clothes[Math.floor(rnd() * clothes.length)];
+        for (let j = 0; j < k; j++) add(g, RB(0.26, 0.05, 0.3, 0.015, 2), mat, w + 0.13, y + 0.009 + 0.025 + j * 0.05, 0, { ry: (rnd() - 0.5) * 0.08 });
+        w += 0.3; }
+    }
   }
   return g;
 }
@@ -1299,7 +1368,8 @@ function vanity(len, dep, basins = 1, top = MAT.granito()) {
   const holes = [], bw = Math.min(0.42, len / basins - 0.12), bd = Math.min(0.32, dep - 0.16);
   for (let i = 0; i < basins; i++) holes.push([-len / 2 + len * (i + 0.5) / basins, 0.03, bw, bd, 0.06]);
   const t = counterWithHoles(len + 0.02, dep, holes, top); t.position.y = h - 0.03; t.castShadow = t.receiveShadow = true; g.add(t);
-  holes.forEach(([hx, hz, w, d]) => { basin(g, hx, h - 0.03, hz, w, d, 0.14, F.ceramic); const f = faucet(0.26, 0.14); f.position.set(hx, h, -dep / 2 + 0.06); g.add(f); });
+  holes.forEach(([hx, hz, w, d]) => { basin(g, hx, h - 0.03, hz, w, d, 0.14, F.ceramic); const f = faucet(0.26, 0.14); f.position.set(hx, h, -dep / 2 + 0.06); g.add(f);
+    add(g, CYL(0.03, 0.032, 0.14, 20), F.vaseDark, hx + w / 2 + 0.06, h + 0.07, -dep / 2 + 0.08); add(g, CYL(0.006, 0.006, 0.05, 8), F.chrome, hx + w / 2 + 0.06, h + 0.165, -dep / 2 + 0.08); });
   add(g, RB(len - 0.04, 0.85, 0.02, 0.004), F.mirror, 0, h + 0.3 + 0.425, -dep / 2 - 0.01, { shadow: false });
   add(g, BX(len, 0.89, 0.004), ledMat, 0, h + 0.3 + 0.425, -dep / 2 - 0.022, { shadow: false, noAO: true });
   return g;
@@ -1524,6 +1594,15 @@ function furniture() {
     add(g, RB(0.6, 0.008, 0.5, 0.004), F.blackGlass, cx, 0.914, 0.0);
     for (const [dx, dz, r] of [[-0.14, -0.11, 0.08], [0.14, -0.11, 0.065], [-0.14, 0.11, 0.065], [0.14, 0.11, 0.09]]) add(g, new THREE.TorusGeometry(r, 0.003, 6, 48), std('#6b6f73', 0.4, 0.5), cx + dx, 0.919, dz, { rx: Math.PI / 2, shadow: false });
     { const hd = hood(0.9); hd.position.set(cx, 0, -D / 2); g.add(hd); }
+    add(g, BX(0.6, 0.6, 0.02), F.blackGlass, cx, 0.48, D / 2 + 0.004);                                 // forno de embutir
+    add(g, BX(0.6, 0.07, 0.022), F.steel, cx, 0.745, D / 2 + 0.005);
+    add(g, CYL(0.009, 0.009, 0.5, 12), F.steel, cx, 0.7, D / 2 + 0.04, { rz: Math.PI / 2 });
+    for (const dx of [-0.24, 0.24]) add(g, CYL(0.007, 0.007, 0.03, 8), F.steel, cx + dx, 0.7, D / 2 + 0.025, { rx: Math.PI / 2 });
+    { const ux = cx + 0.48 + 0.3;                                                                      // micro-ondas no primeiro armário alto
+      add(g, BX(0.56, 0.36, 0.02), F.blackGlass, ux, 1.78, -D / 2 + 0.35); add(g, BX(0.56, 0.05, 0.022), F.steel, ux, 1.98, -D / 2 + 0.352); }
+    add(g, CYL(0.05, 0.045, 0.14, 24), F.ceramicVase, cx + 0.5, 0.91 + 0.07, -D / 2 + 0.1);             // porta-utensílios
+    for (const [dx, dz, h] of [[0.0, 0.0, 0.3], [0.015, 0.012, 0.27], [-0.012, 0.01, 0.28]]) add(g, CYL(0.006, 0.006, h, 8), F.woodMid, cx + 0.5 + dx, 0.91 + h / 2, -D / 2 + 0.1 + dz, { rz: dx * 4 });
+    for (const [dx, c] of [[0.62, '#4f5a2a'], [0.68, '#7c5a1e']]) add(g, lathe([[0, 0], [0.03, 0], [0.03, 0.17], [0.012, 0.21], [0.012, 0.25], [0, 0.25]], 20), phys({ color: c, roughness: 0.1, clearcoat: 1, transparent: true, opacity: 0.85 }), cx + dx, 0.91, -D / 2 + 0.09);
     add(g, BX(L, 0.6, 0.012), MAT.metro(), 0, 0.91 + 0.3, -D / 2 - 0.006, { shadow: false });
     { const segs = [[-L / 2, cx - 0.48], [cx + 0.48, L / 2]];
       for (const [a0, a1] of segs) { const len = a1 - a0; if (len < 0.3) continue; const n = Math.max(1, Math.round(len / 0.45)), dw = len / n;
@@ -1543,13 +1622,14 @@ function furniture() {
   { const g = bed(px2m(70), px2m(143), F.fabricBlue, false, 5); place(g, 411, 555, FACE.s, nd()); }
   place(nightstand(0.4, 0.36, 0.52), 237, 496, FACE.s, nd()); place(nightstand(0.4, 0.36, 0.52), 353, 496, FACE.s, nd()); place(nightstand(0.4, 0.36, 0.52, false), 472, 496, FACE.s, nd());
   { const a = art(0.9, 0.6, 21, ['#efe8dc', '#5d7894', '#c9a86a', '#2f3a44']); place(a, 353, 487, FACE.s, nd()); a.position.y = 1.68; }
-  { const g = wardrobe(px2m(306), px2m(46), 2.4); place(g, 624, 703, FACE.n, nd()); }
+  { const g = wardrobe(px2m(306), px2m(46), 2.4, [5], 7); place(g, 624, 703, FACE.n, nd()); }
   { const g = new THREE.Group(), L = px2m(244); baseCabinets(g, L, 0.36, 0.45, MAT.marc(), 0.5); add(g, RB(L, 0.025, 0.37, 0.004), MAT.marc(), 0, 0.46, 0); add(g, RB(1.1, 0.64, 0.03, 0.006), F.blackGlass, 0, 1.25, -0.16); add(g, BX(1.07, 0.61, 0.002), F.screen, 0, 1.25, -0.144, { shadow: false }); place(g, 345, 714, FACE.n, nd()); }
   /* ---- suíte master */
   { const g = new THREE.Group(), L = px2m(230); baseCabinets(g, L, 0.36, 0.45, MAT.marc(), 0.5); add(g, RB(L, 0.025, 0.37, 0.004), MAT.marc(), 0, 0.46, 0); add(g, RB(1.3, 0.75, 0.03, 0.006), F.blackGlass, 0, 1.3, -0.16); add(g, BX(1.27, 0.72, 0.002), F.screen, 0, 1.3, -0.144, { shadow: false }); books(g, L / 2 - 0.4, 0.475, 0, 3); place(g, 337, 751, FACE.s, nd()); }
   { const rug = new THREE.Group(); add(rug, RB(px2m(240), 0.012, px2m(133), 0.004), phys({ color: '#c99a87', roughness: 1, sheen: 0.8, sheenRoughness: 0.6, sheenColor: new THREE.Color('#f1cfc1') }), 0, 0.006, 0, { shadow: false }); place(rug, 372, 863, 0, 0.05); }
   { const g = bed(1.93, 2.03, F.fabricGray, true, 13); add(g, slats(px2m(222), H - 0.01, 0.06, 0.018, 0.006), MAT.marc(), -px2m(413.5 - 371), (H - 0.01) / 2, -2.03 / 2 - 0.075); place(g, 371, 896, FACE.n, nd()); }
   place(nightstand(0.5, 0.4, 0.55, false), 252, 963, FACE.n, nd()); place(nightstand(0.5, 0.4, 0.55, false), 496, 963, FACE.n, nd());
+  for (const x of [252, 496]) { const g = new THREE.Group(); books(g, 0, 0.55, 0, 2); add(g, vase(0.14, 0.05, null), F.ceramicVase, 0.14, 0.55, 0.05); place(g, x, 963, FACE.n + 0.2, nd()); }
   for (const x of [252, 496]) { const g = new THREE.Group(), y = 1.22;
     add(g, CYL(0.0015, 0.0015, H - y, 4), F.blackMetal, 0, (H + y) / 2, 0, { shadow: false });
     add(g, CYL(0.045, 0.045, 0.012, 20), F.brass, 0, H - 0.006, 0);
@@ -1557,7 +1637,7 @@ function furniture() {
     const gl = add(g, new THREE.SphereGeometry(0.1, 28, 18), globeMat, 0, y, 0, { shadow: false }); gl.userData.noAO = true;
     place(g, x, 958, 0, nd()); }
   { const a = art(1.1, 0.7, 31, ['#ede6da', '#b25e45', '#e0c28d', '#41505b', '#97a58d']); place(a, 371, 975.2, FACE.n, nd()); a.position.y = 1.72; }
-  { const g = wardrobe(px2m(332), px2m(49), 2.4); place(g, 696, 832, FACE.n, nd()); }
+  { const g = wardrobe(px2m(332), px2m(49), 2.4, [3, 4], 11); place(g, 696, 832, FACE.n, nd()); }
   /* ---- suíte 2 */
   { const g = wardrobe(px2m(206), px2m(46), 2.4); place(g, 979, 522, FACE.s, nd()); }
   { const g = new THREE.Group(); add(g, RB(px2m(190), 1.0, 0.06, 0.01), F.fabricOat, 0, 0.5 + 0.03, 0); place(g, 878, 706, FACE.e, nd()); }
@@ -1671,7 +1751,7 @@ function introPose() {
 /* ---------------- visita em primeira pessoa */
 const EYE_V = 1.5;
 const VIEWS = [
-  { name: 'Hall de entrada', p: [1222, 130], l: [930, 245] },
+  { name: 'Hall de entrada', p: [1180, 112], l: [900, 270] },
   { name: 'Sala de jantar', p: [985, 165], l: [700, 300] },
   { name: 'Sala de estar', p: [800, 400], l: [520, 250] },
   { name: 'Cozinha', p: [930, 150], l: [1045, 445] },
@@ -1732,6 +1812,7 @@ function frame(now) {
   const dt = Math.min(0.05, (now - (EX.last || now)) / 1000); EX.last = now;
   if (stepMove(dt)) dirty = true;
   if (!baked && !window.__noBake && S.rise >= 1 && S.furn >= 1 && intro.progress() >= 1) bake();
+  if (baked) panoTick();
   if (MODE === 'overview' && EX.blend <= 0 && S.k1 > 0.999 && !ovDrag && !REDUCED && now - lastAct < 120000 && !document.hidden) S.orbit += dt * 0.05;
   const key = SK.map(k => S[k].toFixed(4)).join('|') + '|' + [EX.pos.x, EX.pos.z, EX.yaw, EX.pitch, EX.dh, EX.blend, EX.dhYaw, EX.dhEl, EX.dhZoom, EX.zoom].map(v => v.toFixed(4)).join('|');
   if (key !== lastKey || dirty) {
@@ -1753,19 +1834,20 @@ function frame(now) {
     // por dentro: céu nas janelas, luzes acesas, forros com sombra, hall do andar
     const ins = b * (1 - EX.dh), inside = ins > 0.6, lk = sstep(0.45, 1, ins);
     for (const c of ceilings) { c.castShadow = inside; c.visible = S.rise > 0.95; }
-    for (const l of lamps) l.intensity = LAMP_K * l.userData.k * lk;
-    lampShade.emissiveIntensity = 1.2 * lk; bulbMat.emissiveIntensity = 5 * lk; ledMat.emissiveIntensity = 3.2 * lk; globeMat.emissiveIntensity = 0.75 * lk; for (const gm of glows) gm.opacity = 0.55 * lk;
+    const NK = NIGHT.k;
+    for (const l of lamps) l.intensity = LAMP_K * l.userData.k * lk * (1 + 3.2 * NK);
+    const ek = lk * (1 + 1.2 * NK); lampShade.emissiveIntensity = 1.2 * ek; bulbMat.emissiveIntensity = 5 * ek; ledMat.emissiveIntensity = 3.2 * ek; globeMat.emissiveIntensity = 0.75 * ek; for (const gm of glows) gm.opacity = Math.min(1, 0.55 * ek);
     { const below = camera.position.y < H - 0.02; for (const o of ceilFx) o.visible = S.rise > 0.95 && below; }
     spotMat.color.setRGB(0.85 + 2.2 * lk, 0.84 + 2.0 * lk, 0.81 + 1.7 * lk);
     if (spots) spots.visible = S.rise > 0.95 && ins > 0.3;
-    hemi.intensity = HEMI0 + HEMI_IN * lk;
+    hemi.intensity = (HEMI0 + HEMI_IN * lk) * (1 - 0.9 * NK);
     skyMat.opacity = sstep(0.55, 1, ins); sky.visible = skyMat.opacity > 0.002; sky.position.copy(camera.position);
     if (hall) { const hk = sstep(0.3, 0.8, ins); hall.visible = hk > 0.01; hall.scale.y = Math.max(0.001, hk); }
-    bloom.strength = 0.16 * lk;
+    bloom.strength = (0.16 + 0.32 * NK) * lk;
     gtao.blendIntensity = 0.75 + 0.25 * lk;
     const sk = [S.rise.toFixed(3), S.furn.toFixed(3), inside, hall && hall.visible ? hall.scale.y.toFixed(2) : 0].join('|');
     if (sk !== lastShadowKey || shadowDirty) { renderer.shadowMap.needsUpdate = true; lastShadowKey = sk; shadowDirty = false; }
-    composer.render(); if (snapCb) takeSnap(); adapt(now);
+    renderView(); if (snapCb) takeSnap(); adapt(now);
     const lo = Math.max(S.labels * (1 - b), EX.on ? EX.dh * b : 0);
     labelsEl.style.setProperty('--lo', lo.toFixed(3)); htmlEl.classList.toggle('lbl', lo > 0.6);
     updateHotspots();
@@ -1867,7 +1949,7 @@ function showTitle(name, kick, area) {
   clearTimeout(showTitle.t); showTitle.t = setTimeout(() => titleEl.classList.remove('show'), 3200);
 }
 const AREA_OF = r => r && r.floor !== 'void' && r.name !== 'Estar, jantar e cozinha' ? '≈ ' + fmt(roomArea(r.name)) + ' m²' : '';
-function arrive(v) { showTitle(v.name, `Ambiente ${pad2(v.i + 1)} de ${pad2(VIEWS.length)}`, AREA_OF(v.room)); }
+function arrive(v) { showTitle(v.name, `Ambiente ${pad2(v.i + 1)} de ${pad2(VIEWS.length)}`, measureText(v.room)); arrive2(v); }
 const viewYaw = v => Math.atan2(X(v.l[0]) - X(v.p[0]), Z(v.l[1]) - Z(v.p[1]));
 function setView(v) { EX.pos.set(X(v.p[0]), EYE_V, Z(v.p[1])); EX.yaw = viewYaw(v); EX.pitch = 0; EX.zoom = 1; EX.idx = v.i; }
 let WM = null;
@@ -1906,7 +1988,7 @@ function glide(pts, finalYaw, onDone) {
   tl.to(EX, { pitch: 0, zoom: 1, duration: 0.6 }, 0);
 }
 function goView(v) {
-  closeSheets();
+  closeSheets(); hideNarr();
   if (EX.dh > 0.5) { setView(v); setDoll(false); setTimeout(() => arrive(v), 1500); return; }
   stopMotion();
   const t = V(X(v.p[0]), EYE_V, Z(v.p[1])), d = V(t.x - EX.pos.x, 0, t.z - EX.pos.z), L = d.length();
@@ -1918,7 +2000,7 @@ function goView(v) {
 function startVisit(target) {
   lastAct = performance.now(); closeSheets();
   if (MODE === 'visit') { if (target && target.p) goView(target); return; }
-  MODE = 'visit'; finishIntro();
+  MODE = 'visit'; finishIntro(); track('tour_start', { room: target && target.name || '' });
   if (!target) target = VIEWS[0];
   if (target.p) setView(target); else { EX.pos.copy(target.pos); EX.yaw = target.yaw; EX.pitch = 0; EX.zoom = 1; EX.idx = target.idx ?? EX.idx; }
   EX.dh = 0; EX.on = true; EX.keys.clear();
@@ -1931,7 +2013,7 @@ function startVisit(target) {
 function exitVisit() {
   if (MODE !== 'visit') return;
   MODE = 'overview'; lastAct = performance.now();
-  closeSheets(); stopMotion(); EX.keys.clear(); EX.held = null; hideRing(); hideHelp();
+  closeSheets(); stopMotion(); EX.keys.clear(); EX.held = null; hideRing(); hideHelp(); hideNarr(); setHash(null); setNight(false); if ('speechSynthesis' in window) speechSynthesis.cancel();
   htmlEl.classList.remove('visit', 'doll');
   gsap.killTweensOf(EX, 'blend,dh');
   gsap.to(EX, { blend: 0, duration: REDUCED ? 0.01 : 1.9, ease: 'power2.inOut', onUpdate: () => { dirty = true; }, onComplete: () => { EX.on = false; EX.dh = 0; shadowDirty = true; } });
@@ -2043,7 +2125,7 @@ function goDoor(h) {
   const cam = EX.pos, toBefore = Math.hypot(before.x - cam.x, before.z - cam.z), side = (cam.x - h.cx) * h.n.x * sg + (cam.z - h.cz) * h.n.z * sg;
   const pts = side < -0.3 && toBefore > 0.35 ? [before, after, dest] : [after, dest];
   if (Math.hypot(dest.x - after.x, dest.z - after.z) < 0.05) pts.pop();
-  glide(pts, yaw, () => { const vv = ROOM_VIEW[tr.name] && viewByName(ROOM_VIEW[tr.name]); if (vv && vv.room === tr) arrive(vv); else showTitle(friendly(tr), 'Você está em', AREA_OF(tr)); });
+  glide(pts, yaw, () => { const vv = ROOM_VIEW[tr.name] && viewByName(ROOM_VIEW[tr.name]); if (vv && vv.room === tr) arrive(vv); else showTitle(friendly(tr), 'Você está em', measureText(tr)); });
 }
 
 /* ---------------- marcador no piso */
@@ -2179,6 +2261,7 @@ function enterRoom(r, pt) {
   startVisit({ pos, yaw: Math.atan2(-pos.x, -pos.z), idx: near.i });
 }
 function tap(x, y) {
+  hideNarr();
   const { first, floor } = hitTest(x, y);
   if (MODE !== 'visit') { if (floor) { const r = roomOfPoint(floor.point); if (r && r.floor !== 'void') enterRoom(r, floor.point); } return; }
   if (EX.dh > 0.5) { if (floor) flyIn(floor.point); return; }
@@ -2271,7 +2354,7 @@ document.querySelectorAll('[data-open-rooms]').forEach(b => b.addEventListener('
 const helpEl = document.getElementById('help');
 const HELP_KEY = 'tour-ajuda-v2';
 function showHelp() { closeSheets(); helpEl.hidden = false; htmlEl.classList.add('help-open'); document.getElementById('helpOk').focus({ preventScroll: true }); }
-function hideHelp() { if (helpEl.hidden) return; helpEl.hidden = true; htmlEl.classList.remove('help-open'); try { localStorage.setItem(HELP_KEY, '1'); } catch (e) {} }
+function hideHelp() { if (helpEl.hidden) return; helpEl.hidden = true; htmlEl.classList.remove('help-open'); try { localStorage.setItem(HELP_KEY, '1'); } catch (e) {} if (typeof consentWaiting !== 'undefined' && consentWaiting) setTimeout(showConsent, 600); if (typeof NARR !== 'undefined' && NARR.pending) { NARR.pending = false; setTimeout(() => showNarr(EX.idx), 450); } }
 function maybeHelp() { let seen = false; try { seen = !!localStorage.getItem(HELP_KEY); } catch (e) {} if (!seen && MODE === 'visit') showHelp(); }
 document.getElementById('helpOk').addEventListener('click', hideHelp);
 helpEl.addEventListener('click', e => { if (e.target === helpEl) hideHelp(); });
@@ -2299,6 +2382,216 @@ addEventListener('resize', onResize);
 addEventListener('orientationchange', () => setTimeout(onResize, 250));
 document.addEventListener('visibilitychange', () => { if (!document.hidden) { lastAct = performance.now(); dirty = true; } });
 
+/* ================================================================ configuração do empreendimento (config.json, opcional)
+   WhatsApp do corretor, Google Analytics, marca, áreas oficiais e vista real ficam num arquivo simples,
+   editável direto no GitHub. Sem ele, o tour funciona com os padrões. */
+const CFG = { whatsapp: '', whatsappMsg: '', ga4: '', brand: null, areas: {}, areaTotal: 0, vista: '' };
+const slug = n => n.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+function officialArea(name) { return CFG.areas && CFG.areas[name] > 0 ? CFG.areas[name] : 0; }
+function areaText(name) { const o = officialArea(name); return o ? fmt(o) + ' m²' : '≈ ' + fmt(roomArea(name)) + ' m²'; }
+function roomDims(r) {
+  if (!r) return null;
+  const xs = r.poly.map(p => p[0]), ys = r.poly.map(p => p[1]);
+  const bw = Math.max(...xs) - Math.min(...xs), bh = Math.max(...ys) - Math.min(...ys);
+  if (r.px / (bw * bh) < 0.86) return null;                // cômodo em L: a medida do retângulo enganaria
+  return [bw * s, bh * s].sort((a, b) => a - b);
+}
+function measureText(r) {
+  if (!r || r.floor === 'void' || r.name === 'Estar, jantar e cozinha') return '';
+  const d = roomDims(r), parts = [areaText(r.name)];
+  if (d) parts.push(`${fmt(d[0], 1)} × ${fmt(d[1], 1)} m`);
+  if (r.floor !== 'deck') parts.push('pé-direito 2,70 m');
+  return parts.join(' · ');
+}
+function applyConfig(c) {
+  Object.assign(CFG, c || {});
+  updateAreas2();
+  if (CFG.brand && CFG.brand.name) {
+    const mk = document.querySelector('.mark b'); if (mk) mk.textContent = CFG.brand.name;
+    if (CFG.brand.logo) { const im = new Image(); im.src = CFG.brand.logo; im.alt = CFG.brand.name; im.className = 'logo'; document.querySelector('.mark').prepend(im); document.querySelector('.mark i')?.remove(); }
+  }
+  const wa = document.querySelectorAll('[data-wa]');
+  wa.forEach(b => { b.hidden = !CFG.whatsapp; });
+  if (CFG.ga4) initAnalytics();
+  if (CFG.vista) new THREE.TextureLoader().load(CFG.vista, t => { t.colorSpace = THREE.SRGBColorSpace; skyMat.map = t; skyMat.needsUpdate = true; dirty = true; });
+  measure();
+}
+function updateAreas2() {
+  const tot = CFG.areaTotal > 0 ? fmt(CFG.areaTotal) + ' m²' : null;
+  if (tot) document.querySelectorAll('[data-total]').forEach(e => e.textContent = tot);
+  document.querySelectorAll('[data-lbl]').forEach(e => e.textContent = areaText(e.dataset.lbl));
+  roomsList.querySelectorAll('[data-view]').forEach(b => { const v = viewByName(b.dataset.view), sm = b.querySelector('small'); if (sm) sm.textContent = v.room && v.room.name !== 'Estar, jantar e cozinha' ? measureText(v.room).replace(' · pé-direito 2,70 m', '') : ''; });
+}
+fetch('config.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(applyConfig).catch(() => applyConfig(null));
+
+/* ---------------- medição (Google Analytics 4, só depois do consentimento) */
+const CONSENT_KEY = 'tour-consentimento';
+let gaReady = false;
+function initAnalytics() {
+  let choice = null; try { choice = localStorage.getItem(CONSENT_KEY); } catch (e) {}
+  if (choice === 'sim') loadGA();
+  else if (choice !== 'nao') setTimeout(showConsent, 6000);
+}
+let consentWaiting = false;
+function showConsent() { if (!document.getElementById('help').hidden) { consentWaiting = true; return; } consentWaiting = false; document.getElementById('consent').hidden = false; }
+function loadGA() {
+  if (gaReady || !CFG.ga4) return; gaReady = true;
+  const sc = document.createElement('script'); sc.async = true; sc.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(CFG.ga4); document.head.appendChild(sc);
+  window.dataLayer = window.dataLayer || []; window.gtag = function () { dataLayer.push(arguments); };
+  gtag('js', new Date()); gtag('config', CFG.ga4, { anonymize_ip: true });
+}
+function track(name, params = {}) { if (gaReady && window.gtag) window.gtag('event', name, params); }
+document.getElementById('consentYes').addEventListener('click', () => { try { localStorage.setItem(CONSENT_KEY, 'sim'); } catch (e) {} document.getElementById('consent').hidden = true; loadGA(); });
+document.getElementById('consentNo').addEventListener('click', () => { try { localStorage.setItem(CONSENT_KEY, 'nao'); } catch (e) {} document.getElementById('consent').hidden = true; });
+
+/* ---------------- compartilhar e falar com o corretor */
+const toastEl = document.getElementById('toast');
+function toast(msg) { toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => toastEl.classList.remove('show'), 2400); }
+function currentUrl() { const base = location.origin + location.pathname; return MODE === 'visit' ? base + '#' + slug(VIEWS[EX.idx].name) : base; }
+document.getElementById('shareBtn').addEventListener('click', async () => {
+  const url = currentUrl(), room = MODE === 'visit' ? VIEWS[EX.idx].name : '';
+  track('share', { room });
+  if (navigator.share) { try { await navigator.share({ title: document.title, text: room ? `Tour 3D do apartamento: ${room}` : 'Tour 3D do apartamento', url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+  try { await navigator.clipboard.writeText(url); toast('Link copiado'); } catch (e) { prompt('Copie o link:', url); }
+});
+document.querySelectorAll('[data-wa]').forEach(b => b.addEventListener('click', () => {
+  if (!CFG.whatsapp) return;
+  const room = MODE === 'visit' ? VIEWS[EX.idx].name : '';
+  const msg = CFG.whatsappMsg || `Olá! Vi o tour 3D do apartamento${room ? ' (' + room + ')' : ''} e quero mais informações.`;
+  track('whatsapp_click', { room });
+  window.open('https://wa.me/' + CFG.whatsapp.replace(/\D/g, '') + '?text=' + encodeURIComponent(msg + '\n' + currentUrl()), '_blank', 'noopener');
+}));
+
+/* ---------------- link direto para um ambiente (#suite-master) */
+function viewFromHash() { const h = decodeURIComponent(location.hash.slice(1)); return h ? VIEWS.find(v => slug(v.name) === h) : null; }
+function setHash(v) { try { history.replaceState(null, '', v ? '#' + slug(v.name) : location.pathname + location.search); } catch (e) {} }
+addEventListener('hashchange', () => { const v = viewFromHash(); if (v && (MODE !== 'visit' || v.i !== EX.idx)) startVisit(v); });
+
+/* ================================================================ noite: luzes acesas, céu escuro */
+const NIGHT = { k: 0, on: false };
+const SUN0 = sun.intensity;
+const tNight = document.getElementById('tNight');
+function envScale(k) {
+  scene.traverse(o => { if (!o.isMesh) return; (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => { if (!m || m.envMapIntensity === undefined) return; if (m.userData.env0 === undefined) m.userData.env0 = m.envMapIntensity; m.envMapIntensity = m.userData.env0 * k; }); });
+}
+function applyNight() {
+  const k = NIGHT.k;
+  sun.intensity = SUN0 * (1 - k);
+  envScale(1 - 0.86 * k);
+  skyMat.color.setRGB(1 - 0.975 * k, 1 - 0.965 * k, 1 - 0.93 * k);
+  U.uExposure.value = 1 + 0.18 * k;
+}
+function setNight(on) {
+  if (on === NIGHT.on) return; NIGHT.on = on;
+  tNight.setAttribute('aria-pressed', String(on)); tNight.querySelector('span').textContent = on ? 'Dia' : 'Noite';
+  gsap.to(NIGHT, { k: on ? 1 : 0, duration: REDUCED ? 0.01 : 1.4, ease: 'sine.inOut', onUpdate: () => { applyNight(); dirty = true; shadowDirty = true; } });
+  track('night_toggle', { on });
+}
+tNight.addEventListener('click', () => { lastAct = performance.now(); setNight(!NIGHT.on); });
+
+/* ================================================================ narração da caminhada */
+const NARRATIVE = [
+  'A porta se fecha atrás de você e o hall estreito conduz o olhar para a frente. No fim do corredor, a claridade da sala já chama: basta avançar para o espaço se abrir.',
+  'Ao sair do corredor, o ambiente se expande de uma vez. A mesa de nogueira fica sob o rebaixo de gesso, com a luz quente da sanca contornando o forro, e a cozinha conversa com o jantar sem nenhuma parede no meio.',
+  'Você contorna o sofá e o painel de madeira acompanha seu olhar até o fundo. A luz da tarde entra pelas portas de vidro da varanda e desenha um rastro claro sobre o piso polido.',
+  'A bancada em L abraça quem cozinha: cubas de um lado, cooktop do outro, voltado para a mesa. Debaixo dos armários, uma linha de luz suave se derrama sobre o azulejo.',
+  'Logo ao lado da cozinha, a área de serviço é discreta e funcional, com tanque, lavadora e bancada, e o banheiro de serviço ao fundo.',
+  'Ao atravessar o vidro, o ar fica mais aberto. A mesa de mármore reúne seis lugares, a bancada com cuba e cooktop encosta na parede e a jardineira acompanha o guarda-corpo transparente.',
+  'A suíte 2 recebe você em silêncio: as duas camas de solteiro dividem o espaço com calma, o armário corre de parede a parede e a luz da janela entra pelo lado.',
+  'Pelo closet, você chega à suíte 1. A cabeceira de madeira percorre a parede e a porta de vidro abre para a varanda técnica, trazendo luz natural até o pé das camas.',
+  'O corredor de closet se abre para o quarto principal. O painel ripado e a cabeceira estofada emolduram a cama king, os pendentes de vidro descem sobre as mesinhas e a cortina deixa a varanda privativa à vista.',
+  'No banho master, a bancada de granito com duas cubas se reflete no espelho iluminado, e as paredes claras levam o olhar até o box, ao fundo.',
+  'Um passo para fora e o quarto fica para trás: duas poltronas de fibra, uma planta no canto e o horizonte inteiro à sua frente.',
+];
+const NARR = { on: true, voice: false };
+try { const v = JSON.parse(localStorage.getItem('tour-narracao') || 'null'); if (v) Object.assign(NARR, v); } catch (e) {}
+const narrEl = document.getElementById('narr'), narrP = narrEl.querySelector('p'), narrListen = document.getElementById('narrListen'), tNarr = document.getElementById('tNarr');
+const canSpeak = 'speechSynthesis' in window;
+if (!canSpeak) narrListen.hidden = true;
+function saveNarr() { try { localStorage.setItem('tour-narracao', JSON.stringify(NARR)); } catch (e) {} }
+function narrUI() { tNarr.setAttribute('aria-pressed', String(NARR.on)); narrListen.setAttribute('aria-pressed', String(NARR.voice)); narrListen.querySelector('span').textContent = NARR.voice ? 'Pausar voz' : 'Ouvir'; }
+function speak(t) {
+  if (!canSpeak) return; speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(t); u.lang = 'pt-BR'; u.rate = 0.97; u.pitch = 1;
+  const vs = speechSynthesis.getVoices().filter(v => /^pt(-|_)BR/i.test(v.lang)); if (vs.length) u.voice = vs.find(v => /natural|google|luciana|francisca/i.test(v.name)) || vs[0];
+  speechSynthesis.speak(u);
+}
+function hideNarr() { narrEl.classList.remove('show'); htmlEl.classList.remove('narr-open'); clearTimeout(hideNarr.t); }
+function showNarr(i) {
+  if (!NARR.on || MODE !== 'visit') return;
+  const t = NARRATIVE[i]; if (!t) return;
+  if (!helpEl.hidden) { NARR.pending = true; return; }   // a ajuda está aberta: a narração entra quando ela fechar
+  narrP.textContent = t; narrEl.classList.add('show'); htmlEl.classList.add('narr-open');
+  if (NARR.voice) speak(t);
+  clearTimeout(hideNarr.t); hideNarr.t = setTimeout(hideNarr, 7000 + t.length * 45);
+}
+tNarr.addEventListener('click', () => { NARR.on = !NARR.on; saveNarr(); narrUI(); if (NARR.on) showNarr(EX.idx); else { hideNarr(); canSpeak && speechSynthesis.cancel(); } track('narration_toggle', { on: NARR.on }); });
+narrListen.addEventListener('click', () => { NARR.voice = !NARR.voice; saveNarr(); narrUI(); if (NARR.voice) { speak(NARRATIVE[EX.idx]); clearTimeout(hideNarr.t); } else canSpeak && speechSynthesis.cancel(); });
+document.getElementById('narrClose').addEventListener('click', () => { hideNarr(); canSpeak && speechSynthesis.cancel(); });
+narrUI();
+
+/* ================================================================ fotos 360° fotorrealistas em cada parada
+   Renderizadas no Blender (Cycles) exatamente do ponto de vista de cada parada. Parado num ambiente, você vê a foto;
+   ao começar a andar, ela se funde de volta ao 3D. */
+const PANO_SIZES = [];
+const PANO = { k: 0, cur: -1, want: -1, tex: new Map(), loading: new Set(), failed: new Set(), size: 0, tw: null };
+PANO.size = PANO_SIZES.length ? (isSmall || Math.max(innerWidth, innerHeight) * Math.min(2, devicePixelRatio || 1) < 1700 ? Math.min(...PANO_SIZES) : Math.max(...PANO_SIZES)) : 0;
+const panoMat = new THREE.ShaderMaterial({
+  uniforms: { map: { value: null }, opacity: { value: 0 } },
+  vertexShader: 'varying vec3 vDir;\nvoid main() { vDir = position; vec4 p = projectionMatrix * modelViewMatrix * vec4(position, 1.0); gl_Position = p.xyww; }',
+  fragmentShader: 'uniform sampler2D map; uniform float opacity; varying vec3 vDir;\nvoid main() {\n vec3 d = normalize(vDir);\n float u = atan(d.x, -d.z) * 0.15915494 + 0.5;\n float v = asin(clamp(d.y, -1.0, 1.0)) * 0.31830989 + 0.5;\n gl_FragColor = vec4(texture2D(map, vec2(u, v)).rgb, opacity);\n #include <colorspace_fragment>\n}',
+  transparent: true, depthTest: false, depthWrite: false, side: THREE.BackSide });
+const panoScene = new THREE.Scene(), panoMesh = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20), panoMat);
+panoMesh.frustumCulled = false; panoScene.add(panoMesh);
+function panoLoad(i) {
+  if (!PANO.size || i < 0 || i >= VIEWS.length || PANO.tex.has(i) || PANO.loading.has(i) || PANO.failed.has(i)) return;
+  PANO.loading.add(i);
+  new THREE.TextureLoader().load(`pano/${PANO.size}/${pad2(i)}.jpg`, t => {
+    t.colorSpace = THREE.SRGBColorSpace; t.generateMipmaps = false; t.minFilter = THREE.LinearFilter; t.wrapS = THREE.RepeatWrapping;
+    PANO.tex.set(i, t); PANO.loading.delete(i);
+    for (const [k, tx] of PANO.tex) if (Math.abs(k - PANO.want) > 1 && k !== PANO.cur && PANO.tex.size > 3) { tx.dispose(); PANO.tex.delete(k); }
+    dirty = true;
+  }, undefined, () => { PANO.loading.delete(i); PANO.failed.add(i); });
+}
+function panoAt() {
+  for (const v of VIEWS) if (Math.hypot(X(v.p[0]) - EX.pos.x, Z(v.p[1]) - EX.pos.z) < 0.04) return v.i;
+  return -1;
+}
+function panoFade(to, dur) {
+  if (PANO.tw) PANO.tw.kill();
+  PANO.tw = gsap.to(PANO, { k: to, duration: REDUCED ? 0.01 : dur, ease: 'sine.inOut', onUpdate: () => { dirty = true; }, onComplete: () => { PANO.tw = null; if (to === 0) PANO.cur = -1; } });
+}
+function panoTick() {
+  if (!PANO.size) return;
+  const moving = gsap.isTweening(EX.pos) || EX.keys.size || EX.held || snapCb;
+  const at = MODE === 'visit' && EX.blend >= 1 && EX.dh < 0.01 && NIGHT.k < 0.01 && !moving ? panoAt() : -1;
+  PANO.want = at;
+  if (at >= 0) { panoLoad(at); panoLoad(at + 1); panoLoad(at - 1); }
+  if (at >= 0 && PANO.tex.has(at)) {
+    if (PANO.cur !== at) { if (PANO.k > 0.01 && PANO.cur >= 0) { PANO.k = 0; } PANO.cur = at; panoMat.uniforms.map.value = PANO.tex.get(at); panoFade(1, 0.7); }
+    else if (PANO.k < 1 && !PANO.tw) panoFade(1, 0.7);
+  } else if (PANO.k > 0 && (!PANO.tw || PANO.tw.vars.k !== 0)) panoFade(0, moving ? 0.25 : 0.5);
+}
+function renderView() {
+  const pk = PANO.cur >= 0 && panoMat.uniforms.map.value ? PANO.k : 0;
+  if (pk < 0.999) composer.render();
+  if (pk > 0.001) {
+    panoMat.uniforms.opacity.value = pk; panoMesh.position.copy(camera.position);
+    renderer.autoClear = pk >= 0.999; renderer.render(panoScene, camera); renderer.autoClear = false;
+    if (ring.visible) renderer.render(ring, camera);
+    renderer.autoClear = true;
+  }
+}
+
+/* ================================================================ chegada num ambiente: título, medidas, narração, link e medição */
+let visited = new Set();
+function arrive2(v) {
+  setHash(v); visited.add(v.i);
+  track('room_view', { room: v.name, index: v.i + 1 });
+  if (v.i === VIEWS.length - 1) track('tour_complete', { rooms_seen: visited.size });
+  clearTimeout(arrive2.t); arrive2.t = setTimeout(() => showNarr(v.i), 900);
+}
+
 /* ================================================================ início */
 S.zoom = camera.aspect < 1 ? 0.84 : 1.1;   // margem da vista aérea: no computador a casa gira sem encostar nas bordas
 build(); applyTheme(); measure();
@@ -2309,10 +2602,13 @@ let done = 0; first.forEach(p => p.then(() => { done++; loadTxt.textContent = `C
 Promise.race([Promise.all(first), new Promise(r => setTimeout(r, 8000))]).then(() => {
   const L = document.getElementById('loader'); L.style.opacity = 0; setTimeout(() => L.remove(), 600);
   htmlEl.classList.add('ready'); measure(); setTimeout(measure, 650); dirty = true; shadowDirty = true;
-  if (REDUCED) intro.progress(1); else setTimeout(() => intro.play(), 250);
+  const hv = viewFromHash();
+  if (REDUCED || hv) intro.progress(1); else setTimeout(() => intro.play(), 250);
+  if (hv) setTimeout(() => startVisit(hv), 400);
+  setTimeout(() => panoLoad(hv ? hv.i : 0), 2500);     // a primeira foto 360° já fica pronta durante a abertura
 });
 requestAnimationFrame(frame);
-window.__casa = { ceilFx, S, EX, VIEWS, scene, camera, intro, startVisit, exitVisit, setDoll, goView, next, prev, showHelp, hideHelp, pending: () => pending, measure, Q, gtao, hemi, sun, F, U, lamps, bloom, renderer, dirty: () => { dirty = true; shadowDirty = true; } };
+window.__casa = { PANO, NIGHT, setNight, NARR, CFG, applyConfig, slug, house, getSpots: () => spots, getLamps: () => lamps, getHall: () => hall, glows, SUN_DIR, H, EYE_V, toWorld: (px, py) => [X(px), Z(py)], viewYaw, ceilFx, S, EX, VIEWS, scene, camera, intro, startVisit, exitVisit, setDoll, goView, next, prev, showHelp, hideHelp, pending: () => pending, measure, Q, gtao, hemi, sun, F, U, lamps, bloom, renderer, dirty: () => { dirty = true; shadowDirty = true; } };
 
 </script>
 </body>
