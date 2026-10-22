@@ -1567,7 +1567,7 @@ function frame() {
     gtao.blendIntensity = 0.65 + 0.35 * lk;
     const sk = [S.rise.toFixed(3), S.furn.toFixed(3), inside, hall && hall.visible ? hall.scale.y.toFixed(2) : 0].join('|');
     if (sk !== lastShadowKey || shadowDirty) { renderer.shadowMap.needsUpdate = true; lastShadowKey = sk; shadowDirty = false; }
-    composer.render();
+    composer.render(); adapt(_now);
     labelsEl.style.opacity = Math.max(S.labels, EX.on ? EX.dh : 0); if (EX.on) updateHere();
     drawMini();
     labelRenderer.render(scene, camera);
@@ -1856,6 +1856,19 @@ addEventListener('resize', () => {
   renderer.setSize(innerWidth, innerHeight, false); composer.setSize(innerWidth, innerHeight); labelRenderer.setSize(innerWidth, innerHeight);
   bloom.resolution.set(innerWidth * 0.5, innerHeight * 0.5); dirty = true;
 });
+
+/* ================================================================ qualidade adaptativa */
+gsap.ticker.lagSmoothing(0);   // animações terminam no tempo certo mesmo em aparelhos lentos
+const Q = { pr: PR, min: 0.7, samples: [], last: 0 };
+function applyPR() { renderer.setPixelRatio(Q.pr); composer.setPixelRatio(Q.pr); composer.setSize(innerWidth, innerHeight); dirty = true; }
+function adapt(now) {
+  if (Q.last && now - Q.last < 250) { Q.samples.push(now - Q.last); if (Q.samples.length > 24) Q.samples.shift(); }
+  Q.last = now;
+  if (Q.samples.length < 24) return;
+  const avg = Q.samples.reduce((a, b) => a + b, 0) / Q.samples.length;
+  if (avg > 50 && Q.pr > Q.min + 0.01) { Q.pr = Math.max(Q.min, Q.pr * 0.8); Q.samples = []; applyPR(); }
+  else if (avg < 20 && Q.pr < PR - 0.01) { Q.pr = Math.min(PR, Q.pr * 1.12); Q.samples = []; applyPR(); }
+}
 
 /* ================================================================ explorar livremente (andar pelo apartamento) */
 const VIEWS = [
