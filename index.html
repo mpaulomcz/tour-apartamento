@@ -223,7 +223,7 @@ html.visit.doll.doll-quiet .doll-hint{opacity:0;visibility:hidden}
   .hero .btns{display:flex;flex-direction:column;gap:10px}
   .navbar{left:50%;right:auto;width:600px;margin-left:-300px}
   .tools{left:50%;right:auto;width:640px;margin-left:-320px}
-  .narr{left:calc(var(--sl) + 24px);right:auto;width:380px;bottom:calc(var(--sb) + 24px)}
+  html .narr{left:calc(var(--sl) + 24px);right:auto;width:380px;bottom:calc(var(--sb) + var(--g) + var(--navh) + var(--toolh) + 28px)}
   .tbtn span{display:inline}
   .nprev{gap:8px}
   .navbar{grid-template-columns:auto minmax(0,1fr) auto}
@@ -263,8 +263,8 @@ html.visit.doll.doll-quiet .doll-hint{opacity:0;visibility:hidden}
   .minimap{top:calc(var(--st) + 50px);width:110px;height:84px}
   .minimap .cap{display:none}
   .doll-hint{top:calc(var(--st) + 50px)}
-  .narr{left:calc(var(--sl) + 96px);right:calc(var(--sr) + 140px);bottom:calc(var(--sb) + var(--g) + var(--navh) + 8px);padding:10px 12px 8px}
-  .narr p{font-size:13.5px;margin-bottom:6px}
+  html .narr{left:calc(var(--sl) + 96px);right:calc(var(--sr) + 140px);bottom:calc(var(--sb) + var(--g) + var(--navh) + 8px);padding:10px 12px 8px}
+  html .narr p{font-size:13.5px;margin-bottom:6px}
   .sheet{left:auto;right:0;top:0;bottom:0;width:min(440px, 70vw);max-height:none;border-left:1px solid var(--line-2)}
   .sheet::before{display:none}
   #roomsPlan{max-height:46vh}
@@ -1761,7 +1761,7 @@ const VIEWS = [
   { name: 'Suíte 1', p: [470, 650], l: [290, 540] },
   { name: 'Suíte master', p: [485, 790], l: [350, 925] },
   { name: 'Banho master', p: [565, 900], l: [720, 975] },
-  { name: 'Varanda master', p: [200, 814], l: [80, 980] },
+  { name: 'Varanda master', p: [180, 845], l: [70, 975] },
 ];
 const FRIENDLY = { 'Estar, jantar e cozinha': 'Sala e cozinha', 'Suíte 1 + closet': 'Suíte 1', 'Suíte master + closet': 'Suíte master', 'W.C. master': 'Banho master', 'W.C. suíte 1': 'Banho da suíte 1', 'W.C. suíte 2': 'Banho da suíte 2', 'W.C. serviço': 'Banho de serviço', 'Vazio técnico': 'Shaft técnico' };
 const ROOM_VIEW = { 'Estar, jantar e cozinha': 'Sala de estar', 'Suíte 1 + closet': 'Suíte 1', 'Suíte 2': 'Suíte 2', 'Suíte master + closet': 'Suíte master', 'W.C. master': 'Banho master', 'Varanda gourmet': 'Varanda gourmet', 'Varanda master': 'Varanda master', 'Área de serviço': 'Área de serviço' };
@@ -2537,11 +2537,12 @@ const PANO_SIZES = [2048];
 const PANO = { k: 0, cur: -1, want: -1, tex: new Map(), loading: new Set(), failed: new Set(), size: 0, tw: null };
 PANO.size = PANO_SIZES.length ? (isSmall || Math.max(innerWidth, innerHeight) * Math.min(2, devicePixelRatio || 1) < 1700 ? Math.min(...PANO_SIZES) : Math.max(...PANO_SIZES)) : 0;
 const panoMat = new THREE.ShaderMaterial({
-  uniforms: { map: { value: null }, opacity: { value: 0 } },
-  vertexShader: 'varying vec3 vDir;\nvoid main() { vDir = position; vec4 p = projectionMatrix * modelViewMatrix * vec4(position, 1.0); gl_Position = p.xyww; }',
-  fragmentShader: 'uniform sampler2D map; uniform float opacity; varying vec3 vDir;\nvoid main() {\n vec3 d = normalize(vDir);\n float u = atan(d.x, -d.z) * 0.15915494 + 0.5;\n float v = asin(clamp(d.y, -1.0, 1.0)) * 0.31830989 + 0.5;\n gl_FragColor = vec4(texture2D(map, vec2(u, v)).rgb, opacity);\n #include <colorspace_fragment>\n}',
-  transparent: true, depthTest: false, depthWrite: false, side: THREE.BackSide });
-const panoScene = new THREE.Scene(), panoMesh = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20), panoMat);
+  // passada de tela cheia: a direção de cada pixel vem da inversa da projeção, sem geometria que possa ser cortada pelo plano da câmera
+  uniforms: { map: { value: null }, opacity: { value: 0 }, invProj: { value: new THREE.Matrix4() }, camWorld: { value: new THREE.Matrix4() } },
+  vertexShader: 'varying vec2 vNdc;\nvoid main() { vNdc = position.xy; gl_Position = vec4(position.xy, 0.0, 1.0); }',
+  fragmentShader: 'uniform sampler2D map; uniform float opacity; uniform mat4 invProj; uniform mat4 camWorld; varying vec2 vNdc;\nvoid main() {\n vec4 p = invProj * vec4(vNdc, 1.0, 1.0); p.xyz /= p.w;\n vec3 d = normalize((camWorld * vec4(p.xyz, 0.0)).xyz);\n float u = atan(d.x, -d.z) * 0.15915494 + 0.5;\n float v = asin(clamp(d.y, -1.0, 1.0)) * 0.31830989 + 0.5;\n gl_FragColor = vec4(texture2D(map, vec2(u, v)).rgb, opacity);\n #include <colorspace_fragment>\n}',
+  transparent: true, depthTest: false, depthWrite: false });
+const panoScene = new THREE.Scene(), panoMesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), panoMat);
 panoMesh.frustumCulled = false; panoScene.add(panoMesh);
 function panoLoad(i) {
   if (!PANO.size || i < 0 || i >= VIEWS.length || PANO.tex.has(i) || PANO.loading.has(i) || PANO.failed.has(i)) return;
@@ -2576,7 +2577,8 @@ function renderView() {
   const pk = PANO.cur >= 0 && panoMat.uniforms.map.value ? PANO.k : 0;
   if (pk < 0.999) composer.render();
   if (pk > 0.001) {
-    panoMat.uniforms.opacity.value = pk; panoMesh.position.copy(camera.position);
+    camera.updateMatrixWorld();
+    panoMat.uniforms.opacity.value = pk; panoMat.uniforms.invProj.value.copy(camera.projectionMatrixInverse); panoMat.uniforms.camWorld.value.copy(camera.matrixWorld);
     renderer.autoClear = pk >= 0.999; renderer.render(panoScene, camera); renderer.autoClear = false;
     if (ring.visible) renderer.render(ring, camera);
     renderer.autoClear = true;
@@ -2608,7 +2610,7 @@ Promise.race([Promise.all(first), new Promise(r => setTimeout(r, 8000))]).then((
   setTimeout(() => panoLoad(hv ? hv.i : 0), 2500);     // a primeira foto 360° já fica pronta durante a abertura
 });
 requestAnimationFrame(frame);
-window.__casa = { PANO, NIGHT, setNight, NARR, CFG, applyConfig, slug, house, getSpots: () => spots, getLamps: () => lamps, getHall: () => hall, glows, SUN_DIR, H, EYE_V, toWorld: (px, py) => [X(px), Z(py)], viewYaw, ceilFx, S, EX, VIEWS, scene, camera, intro, startVisit, exitVisit, setDoll, goView, next, prev, showHelp, hideHelp, pending: () => pending, measure, Q, gtao, hemi, sun, F, U, lamps, bloom, renderer, dirty: () => { dirty = true; shadowDirty = true; } };
+window.__casa = { PANO, panoMesh, panoMat, panoScene, NIGHT, setNight, NARR, CFG, applyConfig, slug, house, getSpots: () => spots, getLamps: () => lamps, getHall: () => hall, glows, SUN_DIR, H, EYE_V, toWorld: (px, py) => [X(px), Z(py)], viewYaw, ceilFx, S, EX, VIEWS, scene, camera, intro, startVisit, exitVisit, setDoll, goView, next, prev, showHelp, hideHelp, pending: () => pending, measure, Q, gtao, hemi, sun, F, U, lamps, bloom, renderer, dirty: () => { dirty = true; shadowDirty = true; } };
 
 </script>
 </body>
